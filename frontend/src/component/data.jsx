@@ -73,13 +73,17 @@ function Data() {
   };
 
   const startListening = () => {
-    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+    if (
+      !("webkitSpeechRecognition" in window) &&
+      !("SpeechRecognition" in window)
+    ) {
       alert("Speech recognition is not supported in this browser.");
       return;
     }
 
     setIsListening(true);
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    const recognition = new (window.SpeechRecognition ||
+      window.webkitSpeechRecognition)();
     recognition.continuous = true; // Keep listening
     recognition.interimResults = true; // Show text while speaking
     recognition.lang = "en-US";
@@ -118,8 +122,10 @@ function Data() {
       <div className={styles.container}>
         <h1 className={styles.title}>Student List</h1>
         <div className={styles.formContainers}>
-
-          <div className={styles.searchContainer} style={{ position: "relative" }}>
+          <div
+            className={styles.searchContainer}
+            style={{ position: "relative" }}
+          >
             <input
               type="text"
               value={searchTerm}
@@ -187,10 +193,20 @@ function Data() {
                     <td>{user.duration || "N/A"}</td>
                     <td>{formatDate(user.admissionDate) || "N/A"}</td>
                     <td>
-                      <button className={styles.bill} onClick={() => setSelectedUser(user)}>Bill</button>
+                      <button
+                        className={styles.bill}
+                        onClick={() =>
+                          setSelectedUser(user) || setIsModalOpen(true)
+                        }
+                      >
+                        Bill
+                      </button>
                     </td>
                     <td>
-                      <Link to={`/attendancedetial/${user.id}`} className={styles.bill}>
+                      <Link
+                        to={`/attendancedetial/${user.id}`}
+                        className={styles.bill}
+                      >
                         Attendance
                       </Link>
                     </td>
@@ -200,12 +216,21 @@ function Data() {
             </table>
             <div className={styles.pagination}>
               {Array.from({ length: totalPages }, (_, index) => (
-                <button key={index + 1} onClick={() => handlePageChange(index + 1)}>
+                <button
+                  key={index + 1}
+                  onClick={() => handlePageChange(index + 1)}
+                >
                   {index + 1}
                 </button>
               ))}
             </div>
-            {isModalOpen && <Bill isModalOpen={isModalOpen} closeBill={() => setIsModalOpen(false)} selectedUser={selectedUser} />}
+            {isModalOpen && (
+              <Bill
+                isModalOpen={isModalOpen}
+                closeBill={() => setIsModalOpen(false)}
+                selectedUser={selectedUser}
+              />
+            )}
           </>
         )}
       </div>

@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const db = require("../connection"); // Import the database connection
+const db = require("../Connection"); // Import the database connection
 
 // Nodemailer setup for sending email
 const transporter = nodemailer.createTransport({

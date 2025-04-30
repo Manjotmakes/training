@@ -105,6 +105,7 @@ const FaceRecognitionAttendance = () => {
         },
       });
       const data = await response.json();
+      
       if (data.success) {
         const studentNames = data.students.map((student) => student.name);
         setDetectedNames(studentNames);
@@ -115,6 +116,14 @@ const FaceRecognitionAttendance = () => {
           )}, Your Attendance has been recorded.`
         );
         setShowThankYou(true);
+        
+        // Play audio message if available
+        if (data.audio_message) {
+          const audio = new Audio('data:audio/mp3;base64,' + data.audio_message);
+          audio.play().catch(error => {
+            console.error("Error playing audio:", error);
+          });
+        }
       } else {
         setDetectedNames(["Unknown Face"]);
         setStatus("❌ Face not recognized");
